@@ -66,8 +66,8 @@ const seedData = async () => {
 
         // Create schedules
         await Schedule.insertMany([
-            { courseId: courses[0]._id, startTime: new Date(), endTime: new Date(Date.now() + 3600000), location: "Room 101" },
-            { courseId: courses[1]._id, startTime: new Date(Date.now() + 86400000), endTime: new Date(Date.now() + 90000000), location: "Room 102" }
+            { courseId: courses[0]._id, type: "class", startTime: new Date(), endTime: new Date(Date.now() + 3600000), location: "Room 101" },
+            { courseId: courses[1]._id, type: "class", startTime: new Date(Date.now() + 86400000), endTime: new Date(Date.now() + 90000000), location: "Room 102" }
         ]);
 
         console.log("Data seeded successfully!");
