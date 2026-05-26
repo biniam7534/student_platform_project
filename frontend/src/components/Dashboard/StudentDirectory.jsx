@@ -1,39 +1,39 @@
 import React from 'react';
 import { MoreHorizontal, Edit2, Filter } from 'lucide-react';
 
+import { adminService } from '../../services/api';
+
 const StudentDirectory = () => {
-    const students = [
-        {
-            id: 1,
-            name: 'Selva Raj',
-            parents: 'Muthu Kumar',
-            phone: '9600778090',
-            class: '7th',
-            grade: 'A+',
-            status: 'Paid',
-            image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=100&h=100&q=80'
-        },
-        {
-            id: 2,
-            name: 'Malar',
-            parents: 'Muthu Kumar',
-            phone: '7550364512',
-            class: '10th',
-            grade: 'B+',
-            status: 'Unpaid',
-            image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=100&h=100&q=80'
-        },
-        {
-            id: 3,
-            name: 'Vinoth',
-            parents: 'Deva Raj',
-            phone: '9600779080',
-            class: '7th',
-            grade: 'A+',
-            status: 'Paid',
-            image: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=100&h=100&q=80'
-        }
-    ];
+    const [students, setStudents] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                const { data } = await adminService.getStudents();
+                if (data.success) {
+                    // Map backend user model to frontend student object
+                    const mappedStudents = data.data.map(user => ({
+                        id: user._id,
+                        name: user.username,
+                        parents: user.parents || 'Not Specified',
+                        phone: user.phone || 'N/A',
+                        class: user.className || 'N/A',
+                        grade: user.grade || 'N/A',
+                        status: user.status || 'Unpaid',
+                        image: user.image || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=100&h=100&q=80'
+                    }));
+                    setStudents(mappedStudents);
+                }
+            } catch (error) {
+                console.error("Error fetching students:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStudents();
+    }, []);
 
     return (
         <div className="bg-white p-6 rounded-[24px] shadow-sm border border-gray-50 mt-6">
@@ -58,38 +58,58 @@ const StudentDirectory = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
-                        {students.map((student) => (
-                            <tr key={student.id} className="group hover:bg-gray-50/50 transition-colors">
-                                <td className="py-4">
-                                    <div className="flex items-center gap-3">
-                                        <img src={student.image} alt="" className="w-8 h-8 rounded-lg object-cover" />
-                                        <span className="text-xs font-bold text-gray-800">{student.name}</span>
-                                    </div>
-                                </td>
-                                <td className="py-4 text-xs text-gray-500 font-medium">{student.parents}</td>
-                                <td className="py-4 text-xs text-gray-500 font-medium">{student.phone}</td>
-                                <td className="py-4 text-xs text-gray-500 font-medium">{student.class}</td>
-                                <td className="py-4 text-xs font-black text-gray-800">{student.grade}</td>
-                                <td className="py-4">
-                                    <span className={`px-3 py-1 rounded-md text-[10px] font-bold ${student.status === 'Paid'
-                                            ? 'bg-green-100 text-green-600'
-                                            : 'bg-red-100 text-red-500'
-                                        }`}>
-                                        {student.status}
-                                    </span>
-                                </td>
-                                <td className="py-4 text-right">
-                                    <div className="flex items-center justify-end gap-2 px-2">
-                                        <button className="p-1 hover:bg-gray-200 rounded text-gray-400">
-                                            <MoreHorizontal className="w-4 h-4" />
-                                        </button>
-                                        <button className="p-1 hover:bg-gray-200 rounded text-gray-800">
-                                            <Edit2 className="w-4 h-4" />
-                                        </button>
-                                    </div>
+                        {loading ? (
+                            <tr>
+                                <td colSpan="7" className="py-10 text-center text-xs font-bold text-gray-400">
+                                    Loading students...
                                 </td>
                             </tr>
-                        ))}
+                        ) : students.length === 0 ? (
+                            <tr>
+                                <td colSpan="7" className="py-10 text-center text-xs font-bold text-gray-400">
+                                    No students found.
+                                </td>
+                            </tr>
+                        ) : (
+                            students.map((student) => (
+                                <tr key={student.id} className="group hover:bg-gray-50/50 transition-colors">
+                                    <td className="py-4">
+                                        <div className="flex items-center gap-3">
+                                            <img src={student.image} alt="" className="w-8 h-8 rounded-lg object-cover" />
+                                            <span className="text-xs font-bold text-gray-800">{student.name}</span>
+                                        </div>
+                                    </td>
+                                    <td className="py-4 text-xs text-gray-500 font-medium">{student.parents}</td>
+                                    <td className="py-4 text-xs text-gray-500 font-medium">{student.phone}</td>
+                                    <td className="py-4 text-xs text-gray-500 font-medium">{student.class}</td>
+                                    <td className="py-4 text-xs font-black text-gray-800">{student.grade}</td>
+                                    <td className="py-4">
+                                        <span className={`px-3 py-1 rounded-md text-[10px] font-bold ${student.status === 'Paid'
+                                            ? 'bg-green-100 text-green-600'
+                                            : 'bg-red-100 text-red-500'
+                                            }`}>
+                                            {student.status}
+                                        </span>
+                                    </td>
+                                    <td className="py-4 text-right">
+                                        <div className="flex items-center justify-end gap-2 px-2">
+                                            <button
+                                                onClick={() => alert(`More options for ${student.name}`)}
+                                                className="p-1 hover:bg-gray-200 rounded text-gray-400"
+                                            >
+                                                <MoreHorizontal className="w-4 h-4" />
+                                            </button>
+                                            <button
+                                                onClick={() => alert(`Editing student: ${student.name}`)}
+                                                className="p-1 hover:bg-gray-200 rounded text-gray-800"
+                                            >
+                                                <Edit2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>

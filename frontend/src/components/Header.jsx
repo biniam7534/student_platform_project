@@ -53,7 +53,10 @@ const Header = () => {
                     <div className="flex items-center gap-1 bg-gray-50 px-3 py-1.5 rounded-lg text-xs font-bold text-gray-700 cursor-pointer">
                         EN <ChevronDown className="w-3 h-3" />
                     </div>
-                    <button className="p-2 bg-gray-50 text-gray-700 rounded-xl hover:bg-gray-100">
+                    <button
+                        onClick={() => alert('Logging out...')}
+                        className="p-2 bg-gray-50 text-gray-700 rounded-xl hover:bg-gray-100"
+                    >
                         <LogOut className="w-5 h-5" />
                     </button>
                 </div>

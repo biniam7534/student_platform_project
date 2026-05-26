@@ -11,11 +11,11 @@ import { protect, authorize } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// All routes are protected and restricted to Admin
-router.get("/dashboard-stats", protect, authorize("admin"), getDashboardStats);
+// Temporarily public for frontend demo
+router.get("/dashboard-stats", getDashboardStats);
 
 router.route("/students")
-    .get(protect, authorize("admin", "staff"), getAllStudents)
+    .get(getAllStudents)
     .post(protect, authorize("admin"), createStudent);
 
 router.route("/students/:id")

@@ -7,20 +7,47 @@ import StudentDirectory from './components/Dashboard/StudentDirectory';
 import FeesCollection from './components/Dashboard/FeesCollection';
 import RightSidebar from './components/RightSidebar';
 import { Users, UserSquare2, Briefcase, Calendar } from 'lucide-react';
+import { adminService } from './services/api';
 
 function App() {
-  const stats = [
-    { title: 'Total Students', value: '5,252', icon: Users, color: 'bg-[#6d31ed]' },
-    { title: 'Total Teachers', value: '132', icon: UserSquare2, color: 'bg-[#ff7aa2]' },
-    { title: 'Working Staff', value: '38', icon: Briefcase, color: 'bg-[#50c4ed]' },
-    { title: 'This Month Events', value: '15', icon: Calendar, color: 'bg-[#ff9e44]' },
-  ];
+  const [stats, setStats] = React.useState([
+    { title: 'Total Students', value: '...', icon: Users, color: 'bg-[#6d31ed]' },
+    { title: 'Total Teachers', value: '...', icon: UserSquare2, color: 'bg-[#ff7aa2]' },
+    { title: 'Working Staff', value: '...', icon: Briefcase, color: 'bg-[#50c4ed]' },
+    { title: 'This Month Events', value: '...', icon: Calendar, color: 'bg-[#ff9e44]' },
+  ]);
 
-  const attendanceData = [
-    { title: 'Student Attendance', present: 4752, absent: 437, color: '#ff9e44' },
-    { title: 'Teachers Attendance', present: 132, absent: 4, color: '#ff7aa2' },
-    { title: 'Staff Attendance', present: 32, absent: 6, color: '#50c4ed' },
-  ];
+  const [attendanceData, setAttendanceData] = React.useState([
+    { title: 'Student Attendance', present: 0, absent: 0, color: '#ff9e44' },
+    { title: 'Teachers Attendance', present: 0, absent: 0, color: '#ff7aa2' },
+    { title: 'Staff Attendance', present: 0, absent: 0, color: '#50c4ed' },
+  ]);
+
+  React.useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const { data } = await adminService.getDashboardStats();
+        if (data.success) {
+          const { totalStudents, totalTeachers, totalStaff, totalEvents, attendanceSummary } = data.data;
+
+          setStats([
+            { title: 'Total Students', value: totalStudents.toLocaleString(), icon: Users, color: 'bg-[#6d31ed]' },
+            { title: 'Total Teachers', value: totalTeachers.toLocaleString(), icon: UserSquare2, color: 'bg-[#ff7aa2]' },
+            { title: 'Working Staff', value: totalStaff.toLocaleString(), icon: Briefcase, color: 'bg-[#50c4ed]' },
+            { title: 'This Month Events', value: totalEvents.toLocaleString(), icon: Calendar, color: 'bg-[#ff9e44]' },
+          ]);
+
+          if (attendanceSummary) {
+            setAttendanceData(attendanceSummary);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   return (
     <div className="flex bg-[#f5f6fa] min-h-screen">

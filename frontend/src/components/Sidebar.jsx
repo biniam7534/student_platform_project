@@ -13,8 +13,10 @@ import {
 } from 'lucide-react';
 
 const Sidebar = () => {
+    const [activeItem, setActiveItem] = React.useState('Dashboard');
+
     const menuItems = [
-        { icon: LayoutDashboard, label: 'Dashboard', active: true },
+        { icon: LayoutDashboard, label: 'Dashboard' },
         { icon: Users, label: 'Students' },
         { icon: UserSquare2, label: 'Teachers' },
         { icon: BookOpen, label: 'Courses' },
@@ -43,12 +45,13 @@ const Sidebar = () => {
                     {menuItems.map((item) => (
                         <button
                             key={item.label}
-                            className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${item.active
+                            onClick={() => setActiveItem(item.label)}
+                            className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${activeItem === item.label
                                 ? 'bg-white text-[#4f35a1] font-semibold shadow-lg'
                                 : 'hover:bg-white/10 text-white/70'
                                 }`}
                         >
-                            <item.icon className={`w-5 h-5 ${item.active ? 'text-[#4f35a1]' : 'text-white/70'}`} />
+                            <item.icon className={`w-5 h-5 ${activeItem === item.label ? 'text-[#4f35a1]' : 'text-white/70'}`} />
                             <span className="text-sm">{item.label}</span>
                         </button>
                     ))}
