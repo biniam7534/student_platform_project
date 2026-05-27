@@ -16,6 +16,7 @@ const api = axios.create({
 export const adminService = {
     getDashboardStats: () => api.get('/admin/dashboard-stats'),
     getStudents: () => api.get('/admin/students'),
+    getTeachers: () => api.get('/admin/teachers'),
     getPayments: () => api.get('/admin/payments'),
 };
 

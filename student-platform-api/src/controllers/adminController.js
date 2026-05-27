@@ -50,6 +50,18 @@ export const getAllStudents = async (req, res) => {
     }
 };
 
+// @desc    Get all teachers
+// @route   GET /api/admin/teachers
+// @access  Public (for now)
+export const getAllTeachers = async (req, res) => {
+    try {
+        const teachers = await User.find({ role: "teacher" }).select("-password");
+        res.status(200).json({ success: true, count: teachers.length, data: teachers });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 // @desc    Create a student
 // @route   POST /api/admin/students
 // @access  Private (Admin)

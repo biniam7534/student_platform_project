@@ -2,6 +2,7 @@ import express from "express";
 import {
     getDashboardStats,
     getAllStudents,
+    getAllTeachers,
     createStudent,
     updateStudent,
     deleteStudent,
@@ -17,6 +18,8 @@ router.get("/dashboard-stats", getDashboardStats);
 router.route("/students")
     .get(getAllStudents)
     .post(protect, authorize("admin"), createStudent);
+
+router.get("/teachers", getAllTeachers);
 
 router.route("/students/:id")
     .put(protect, authorize("admin"), updateStudent)

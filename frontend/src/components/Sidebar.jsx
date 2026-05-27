@@ -12,8 +12,7 @@ import {
     BookOpen
 } from 'lucide-react';
 
-const Sidebar = () => {
-    const [activeItem, setActiveItem] = React.useState('Dashboard');
+const Sidebar = ({ activeItem, setActiveItem }) => {
 
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard' },
