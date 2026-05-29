@@ -18,6 +18,7 @@ export const adminService = {
     getStudents: () => api.get('/admin/students'),
     getTeachers: () => api.get('/admin/teachers'),
     getPayments: () => api.get('/admin/payments'),
+    getCourses: () => api.get('/courses'),
 };
 
 export default api;

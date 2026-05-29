@@ -6,6 +6,7 @@ import AttendanceChart from './components/Dashboard/AttendanceChart';
 import StudentDirectory from './components/Dashboard/StudentDirectory';
 import FeesCollection from './components/Dashboard/FeesCollection';
 import TeacherDirectory from './components/Dashboard/TeacherDirectory';
+import CourseDirectory from './components/Dashboard/CourseDirectory';
 import RightSidebar from './components/RightSidebar';
 import { Users, UserSquare2, Briefcase, Calendar } from 'lucide-react';
 import { adminService } from './services/api';
@@ -66,6 +67,7 @@ function App() {
                 {activeItem === 'Dashboard' && "Hi, Welcome to Edu-Center dashboard"}
                 {activeItem === 'Students' && "Manage and view all students in the system"}
                 {activeItem === 'Teachers' && "Manage and view all faculty members"}
+                {activeItem === 'Courses' && "Explore and manage specialized learning tracks"}
               </p>
             </div>
 
@@ -92,7 +94,9 @@ function App() {
 
             {activeItem === 'Teachers' && <TeacherDirectory />}
 
-            {['Courses', 'Events', 'Finance', 'Calendar', 'Setting'].includes(activeItem) && (
+            {activeItem === 'Courses' && <CourseDirectory />}
+
+            {['Events', 'Finance', 'Calendar', 'Setting'].includes(activeItem) && (
               <div className="bg-white p-20 rounded-[24px] text-center shadow-sm border border-gray-50 mt-6">
                 <h3 className="text-xl font-bold text-gray-400">{activeItem} View Coming Soon</h3>
               </div>
