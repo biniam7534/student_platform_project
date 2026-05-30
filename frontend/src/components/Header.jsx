@@ -36,12 +36,12 @@ const Header = () => {
 
                 <div className="flex items-center gap-3">
                     <div className="text-right">
-                        <p className="text-sm font-bold text-gray-800">Mr. Sara</p>
+                        <p className="text-sm font-bold text-gray-800">Bina</p>
                         <p className="text-[10px] text-gray-400">Super Admin</p>
                     </div>
                     <div className="w-10 h-10 rounded-full overflow-hidden bg-purple-100 border-2 border-purple-200">
                         <img
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            src="/bina.png"
                             alt="Profile"
                             className="w-full h-full object-cover"
                         />
