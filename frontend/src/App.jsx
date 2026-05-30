@@ -7,6 +7,10 @@ import StudentDirectory from './components/Dashboard/StudentDirectory';
 import FeesCollection from './components/Dashboard/FeesCollection';
 import TeacherDirectory from './components/Dashboard/TeacherDirectory';
 import CourseDirectory from './components/Dashboard/CourseDirectory';
+import EventsPage from './components/Dashboard/EventsPage';
+import FinancePage from './components/Dashboard/FinancePage';
+import CalendarPage from './components/Dashboard/CalendarPage';
+import SettingsPage from './components/Dashboard/SettingsPage';
 import RightSidebar from './components/RightSidebar';
 import { Users, UserSquare2, Briefcase, Calendar } from 'lucide-react';
 import { adminService } from './services/api';
@@ -68,6 +72,10 @@ function App() {
                 {activeItem === 'Students' && "Manage and view all students in the system"}
                 {activeItem === 'Teachers' && "Manage and view all faculty members"}
                 {activeItem === 'Courses' && "Explore and manage specialized learning tracks"}
+                {activeItem === 'Events' && "Create and manage school events"}
+                {activeItem === 'Finance' && "Track fees, payments and financial reports"}
+                {activeItem === 'Calendar' && "View and plan your school schedule"}
+                {activeItem === 'Setting' && "Manage your account and platform preferences"}
               </p>
             </div>
 
@@ -96,11 +104,13 @@ function App() {
 
             {activeItem === 'Courses' && <CourseDirectory />}
 
-            {['Events', 'Finance', 'Calendar', 'Setting'].includes(activeItem) && (
-              <div className="bg-white p-20 rounded-[24px] text-center shadow-sm border border-gray-50 mt-6">
-                <h3 className="text-xl font-bold text-gray-400">{activeItem} View Coming Soon</h3>
-              </div>
-            )}
+            {activeItem === 'Events' && <EventsPage />}
+
+            {activeItem === 'Finance' && <FinancePage />}
+
+            {activeItem === 'Calendar' && <CalendarPage />}
+
+            {activeItem === 'Setting' && <SettingsPage />}
           </div>
 
           <RightSidebar />
